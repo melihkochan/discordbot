@@ -41,7 +41,8 @@ ytdl_format_options = {
     'no_warnings': False,
     'default_search': 'auto',
     'source_address': '0.0.0.0',
-    'force_ipv4': True
+    'force_ipv4': True,
+    'cookiefile': 'youtube_cookies.txt'
 }
 
 
@@ -52,6 +53,10 @@ ffmpeg_options = {
 ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
 
 ssl._create_default_https_context = ssl._create_unverified_context
+
+if os.getenv('YOUTUBE_COOKIES'):
+    with open('youtube_cookies.txt', 'w', encoding='utf-8') as f:
+        f.write(os.getenv('YOUTUBE_COOKIES'))
 
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0.5):
